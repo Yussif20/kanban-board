@@ -1,8 +1,10 @@
+import Button from './components/Button/Button';
+
 function App() {
   return (
-    <>
-      <h1 className="text-red-400 font-plus-jakarta">Hello you</h1>
-    </>
+    <div className="text-main-purple font-plus-jakarta text-heading-xl">
+      <Button>Hello</Button>
+    </div>
   );
 }
 
