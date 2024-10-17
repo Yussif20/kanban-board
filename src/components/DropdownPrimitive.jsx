@@ -5,8 +5,8 @@ import clsx from 'clsx';
  *  @param {Object} props
  * @param {function} props.triggerComponent
  * @param {object} props.items
- * @param {string} props.items.label - The text to display in the dropdown
- * @param {function} props.items.onClick - The function to run when the item is clicked
+ * @param {string} props.items.label
+ * @param {function} props.items.onClick
  * @returns {JSX.Element}
  */
 

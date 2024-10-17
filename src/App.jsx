@@ -1,6 +1,7 @@
-import Button from './components/Button';
-import DropdownPrimitive from './components/DropdownPrimitive';
-import TextField from './components/TextField';
+import Button from '@components/Button';
+import DropdownPrimitive from '@components/DropdownPrimitive';
+import TextField from '@components/TextField';
+import DialogPrimitive from '@components/DialogPrimitive';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         }}
         triggerComponent={() => <button>Actions</button>}
       />
+      <DialogPrimitive isOpen={true}>Hello</DialogPrimitive>
     </div>
   );
 }
