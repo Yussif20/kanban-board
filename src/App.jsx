@@ -1,13 +1,12 @@
-import Button from '@components/Button';
-import DropdownPrimitive from '@components/DropdownPrimitive';
-import TextField from '@components/TextField';
-import DialogPrimitive from '@components/DialogPrimitive';
-import Header from '@components/Header';
+import { SideMenu, Header } from '@components/index.js';
 
 function App() {
   return (
-    <div className="text-main-purple font-plus-jakarta text-heading-xl">
+    <div className="h-screen font-plus-jakarta flex flex-col">
       <Header />
+      <div className="flex flex-1">
+        <SideMenu />
+      </div>
     </div>
   );
 }

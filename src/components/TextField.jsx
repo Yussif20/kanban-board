@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 
-const TextField = ({
+export const TextField = ({
   placeholder,
   isInvalid,
   name,
@@ -28,5 +28,3 @@ const TextField = ({
     </div>
   );
 };
-
-export default TextField;

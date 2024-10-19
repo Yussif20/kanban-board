@@ -24,7 +24,7 @@ const button = cva('rounded-full px-6 duration-200 text-[13px] font-bold', {
     size: 'lg',
   },
 });
-const Button = ({
+export const Button = ({
   children,
   variant,
   size,
@@ -42,5 +42,3 @@ const Button = ({
     </button>
   );
 };
-
-export default Button;

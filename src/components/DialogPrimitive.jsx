@@ -10,7 +10,7 @@ import * as Dialog from '@radix-ui/react-dialog';
  * @returns {JSX.Element}
  */
 
-const DialogPrimitive = ({
+export const DialogPrimitive = ({
   title,
   triggerComponent,
   children,
@@ -28,5 +28,3 @@ const DialogPrimitive = ({
     </Dialog.Portal>
   </Dialog.Root>
 );
-
-export default DialogPrimitive;

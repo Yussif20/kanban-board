@@ -1,9 +1,8 @@
 import { useState } from 'react';
-import DropdownPrimitive from './DropdownPrimitive';
-import DialogPrimitive from './DialogPrimitive';
+import { DropdownPrimitive, DialogPrimitive } from './index.js';
 import iconVerticalEllipsis from '@assets/icon-vertical-ellipsis.svg';
 
-const Header = () => {
+export const Header = () => {
   const [open, setOpen] = useState(false);
   const onEditBoard = () => setOpen(true);
   const onDeleteBoard = () => {
@@ -46,5 +45,3 @@ const Header = () => {
     </header>
   );
 };
-
-export default Header;

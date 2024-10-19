@@ -10,7 +10,7 @@ import clsx from 'clsx';
  * @returns {JSX.Element}
  */
 
-const DropdownPrimitive = ({ triggerComponent, items }) => {
+export const DropdownPrimitive = ({ triggerComponent, items }) => {
   return (
     <DropdownMenu.Root>
       <DropdownMenu.Trigger asChild>
@@ -42,5 +42,3 @@ const DropdownPrimitive = ({ triggerComponent, items }) => {
     </DropdownMenu.Root>
   );
 };
-
-export default DropdownPrimitive;
