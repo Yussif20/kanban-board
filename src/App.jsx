@@ -1,4 +1,4 @@
-import { SideMenu, Header } from '@components/index.js';
+import { SideMenu, Header, WorkSpace } from '@components/index.js';
 
 function App() {
   return (
@@ -6,6 +6,7 @@ function App() {
       <Header />
       <div className="flex flex-1">
         <SideMenu />
+        <WorkSpace />
       </div>
     </div>
   );

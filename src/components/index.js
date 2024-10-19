@@ -4,3 +4,6 @@ export * from './DropdownPrimitive.jsx';
 export * from './Header.jsx';
 export * from './SideMenu.jsx';
 export * from './TextField.jsx';
+export * from './Workspace.jsx';
+export * from './Column.jsx';
+export * from './Card.jsx';
