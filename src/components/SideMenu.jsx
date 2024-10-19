@@ -1,23 +1,26 @@
 import clsx from 'clsx';
 import { useState } from 'react';
+import { DialogPrimitive } from './index.js';
+import iconBoard from '@assets/icon-board.svg';
 
 const DATA = [
   {
     title: 'Home',
-    id: 3,
+    id: 0,
   },
   {
     title: 'About',
-    id: 3,
+    id: 1,
   },
   {
     title: 'Contact',
-    id: 3,
+    id: 2,
   },
 ];
 
 export const SideMenu = () => {
   const [selectedBoardIndex, setSelectedBoardIndex] = useState(0);
+  const [open, setOpen] = useState(false);
 
   return (
     <aside className="side-menu mt-px w-[300px] border-r border-lines-light bg-white">
@@ -34,13 +37,27 @@ export const SideMenu = () => {
                       selectedBoardIndex === index,
                   }
                 )}
+                data-isactive={selectedBoardIndex === index} /// tailwind css feature that help with make styles more dynamic
                 onClick={() => setSelectedBoardIndex(index)}
               >
+                <img src={iconBoard} alt="Icon Board" />
                 {item.title}
               </button>
             </li>
           );
         })}
+        <li className="px-8 py-4">
+          <DialogPrimitive
+            isOpen={open}
+            setOpen={setOpen}
+            title="Create New Board"
+            triggerComponent={
+              <button className="flex w-full items-center gap-4 text-heading-m text-main-purple">
+                <img src={iconBoard} alt="Icon Board" /> + Create New Board
+              </button>
+            }
+          />
+        </li>
       </ul>
     </aside>
   );

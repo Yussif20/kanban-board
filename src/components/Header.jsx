@@ -38,9 +38,7 @@ export const Header = () => {
             </button>
           )}
         />
-        <DialogPrimitive isOpen={open} setOpen={setOpen} title="Edit Board">
-          Hello world
-        </DialogPrimitive>
+        <DialogPrimitive isOpen={open} setOpen={setOpen} title="Edit Board" />
       </div>
     </header>
   );
