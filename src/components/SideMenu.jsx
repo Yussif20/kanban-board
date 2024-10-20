@@ -14,9 +14,10 @@ import AddNewBoardForm from './AddNewBoardForm.jsx';
  * @returns {JSX.Element}
  */
 
-export const SideMenu = ({ selectedBoardIndex, setSelectedBoardIndex }) => {
+export const SideMenu = () => {
   const [open, setOpen] = useState(false);
-  const { data } = useContext(DataContext);
+  const { data, selectedBoardIndex, setSelectedBoardIndex } =
+    useContext(DataContext);
 
   return (
     <aside className="side-menu mt-px w-[300px] border-r border-lines-light bg-white">

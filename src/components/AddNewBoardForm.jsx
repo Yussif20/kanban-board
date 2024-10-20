@@ -5,7 +5,7 @@ import { DataContext } from '@/DataContext';
 
 const AddNewBoardForm = ({ toggleDialog }) => {
   const [columnsArray, setColumnsArray] = useState([{ id: Date.now() }]);
-  const { setData } = useContext(DataContext);
+  const { setData, setSelectedBoardIndex } = useContext(DataContext);
 
   const removeColumnHandler = (id) => {
     setColumnsArray((prevArr) => prevArr.filter((column) => column.id !== id));
@@ -25,6 +25,7 @@ const AddNewBoardForm = ({ toggleDialog }) => {
   };
   const updateData = (boardName, newColumnsArray, setData) => {
     setData((prevData) => {
+      setSelectedBoardIndex(prevData.length);
       return [
         ...prevData,
         {
