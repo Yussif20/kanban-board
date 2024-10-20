@@ -48,6 +48,7 @@ export const SideMenu = ({ selectedBoardIndex, setSelectedBoardIndex }) => {
           <DialogPrimitive
             isOpen={open}
             setOpen={setOpen}
+            description="Open A New Form That Help In Add New Board"
             title="Create New Board"
             triggerComponent={
               <button className="flex w-full items-center gap-4 text-heading-m text-main-purple">
@@ -55,7 +56,7 @@ export const SideMenu = ({ selectedBoardIndex, setSelectedBoardIndex }) => {
               </button>
             }
           >
-            <AddNewBoardForm />
+            <AddNewBoardForm toggleDialog={setOpen} />
           </DialogPrimitive>
         </li>
       </ul>

@@ -1,17 +1,54 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { Button, TextField } from './index';
 import iconCross from '@assets/icon-cross.svg';
+import { DataContext } from '@/DataContext';
 
-const AddNewBoardForm = () => {
+const AddNewBoardForm = ({ toggleDialog }) => {
   const [columnsArray, setColumnsArray] = useState([{ id: Date.now() }]);
+  const { setData } = useContext(DataContext);
+
   const removeColumnHandler = (id) => {
     setColumnsArray((prevArr) => prevArr.filter((column) => column.id !== id));
   };
   const addNewColumnHandler = () => {
     setColumnsArray((prevArr) => [...prevArr, { id: Date.now() }]);
   };
+
+  const createNewColumnsArray = (formData, columnsArray) => {
+    return columnsArray.map((column) => {
+      return {
+        id: column.id,
+        title: formData.get(column.id),
+        tasks: [],
+      };
+    });
+  };
+  const updateData = (boardName, newColumnsArray, setData) => {
+    setData((prevData) => {
+      return [
+        ...prevData,
+        {
+          id: Date.now(),
+          title: boardName,
+          columns: newColumnsArray,
+        },
+      ];
+    });
+  };
+
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    // Add board to database or other storage
+    const formData = new FormData(e.target);
+    const boardName = formData.get('boardName');
+    const newColumnsArray = createNewColumnsArray(formData, columnsArray);
+    // Update the data state with the new board and columns
+    updateData(boardName, newColumnsArray, setData);
+    toggleDialog(false);
+  };
+
   return (
-    <form>
+    <form onSubmit={handleFormSubmit}>
       <div>
         <h3 className="pb-2 pt-6 text-body-m text-medium-grey">Name</h3>
         <TextField placeholder="e.g. Web Design" name="boardName" required />

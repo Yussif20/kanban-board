@@ -38,7 +38,12 @@ export const Header = () => {
             </button>
           )}
         />
-        <DialogPrimitive isOpen={open} setOpen={setOpen} title="Edit Board" />
+        <DialogPrimitive
+          isOpen={open}
+          setOpen={setOpen}
+          title="Edit Board"
+          description="open add a new board form"
+        />
       </div>
     </header>
   );
