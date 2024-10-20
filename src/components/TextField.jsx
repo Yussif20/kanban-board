@@ -1,5 +1,16 @@
 import clsx from 'clsx';
 
+/**
+ *
+ * @param {Object} props
+ * @param {String} props.placeholder
+ * @param {Boolean} props.isInvalid
+ * @param {String} props.name
+ * @param {Boolean} props.required
+ * @param {String} props.defaultValue
+ * @returns {JSX.Element}
+ */
+
 export const TextField = ({
   placeholder,
   isInvalid,

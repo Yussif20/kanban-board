@@ -1,20 +1,29 @@
 import clsx from 'clsx';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { DialogPrimitive } from './index.js';
 import iconBoard from '@assets/icon-board.svg';
+import { DataContext } from '../DataContext.jsx';
 
-export const SideMenu = ({
-  data = [],
-  selectedBoardIndex,
-  setSelectedBoardIndex,
-}) => {
+/**
+ *
+ * @param {Object} props
+ * @param {Number} props.selectedBoardIndex
+ * @param {Function} props.setSelectedBoardIndex
+ * @param {String} props.columns.title
+ * @returns {JSX.Element}
+ */
+
+export const SideMenu = ({ selectedBoardIndex, setSelectedBoardIndex }) => {
   const [open, setOpen] = useState(false);
+  const { data } = useContext(DataContext);
 
   return (
     <aside className="side-menu mt-px w-[300px] border-r border-lines-light bg-white">
-      <p className="px-8 py-4 text-heading-s">ALL BOARDS ({data.length})</p>
+      <p className="px-8 py-4 text-heading-s">
+        ALL BOARDS ({data?.length || 0})
+      </p>
       <ul>
-        {data.map((item, index) => {
+        {data?.map((item, index) => {
           return (
             <li key={item.id}>
               <button

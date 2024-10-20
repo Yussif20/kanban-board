@@ -1,12 +1,13 @@
 import * as Dialog from '@radix-ui/react-dialog';
 
 /**
- * @param {string} props.title
+ * @param {Object} props
+ * @param {String} props.title
  * @param {JSX.Element} props.triggerComponent
  * @param {JSX.Element} props.children
- * @param {boolean} props.isOpen
+ * @param {Boolean} props.isOpen
  * @param {Function} props.setOpen
- * @param {string} props.items.label
+ * @param {String} props.items.label
  * @returns {JSX.Element}
  */
 

@@ -1,23 +1,24 @@
 import { SideMenu, Header, WorkSpace } from '@components/index.js';
-import data from './data.json';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
+import DataContextProvider, { DataContext } from './DataContext';
 
 function App() {
   const [selectedBoardIndex, setSelectedBoardIndex] = useState(0);
-  const [dataState, setDataState] = useState(data);
+  const { data } = useContext(DataContext);
 
   return (
-    <div className="h-screen font-plus-jakarta flex flex-col">
-      <Header />
-      <div className="flex flex-1">
-        <SideMenu
-          data={dataState}
-          selectedBoardIndex={selectedBoardIndex}
-          setSelectedBoardIndex={setSelectedBoardIndex}
-        />
-        <WorkSpace columns={dataState[selectedBoardIndex]?.columns} />
+    <DataContextProvider>
+      <div className="h-screen font-plus-jakarta flex flex-col">
+        <Header />
+        <div className="flex flex-1">
+          <SideMenu
+            selectedBoardIndex={selectedBoardIndex}
+            setSelectedBoardIndex={setSelectedBoardIndex}
+          />
+          <WorkSpace columns={data[selectedBoardIndex]?.columns} />
+        </div>
       </div>
-    </div>
+    </DataContextProvider>
   );
 }
 
