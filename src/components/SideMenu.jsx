@@ -3,6 +3,7 @@ import { useContext, useState } from 'react';
 import { DialogPrimitive } from './index.js';
 import iconBoard from '@assets/icon-board.svg';
 import { DataContext } from '../DataContext.jsx';
+import AddNewBoardForm from './AddNewBoardForm.jsx';
 
 /**
  *
@@ -53,7 +54,9 @@ export const SideMenu = ({ selectedBoardIndex, setSelectedBoardIndex }) => {
                 <img src={iconBoard} alt="Icon Board" /> + Create New Board
               </button>
             }
-          />
+          >
+            <AddNewBoardForm />
+          </DialogPrimitive>
         </li>
       </ul>
     </aside>

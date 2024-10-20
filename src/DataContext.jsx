@@ -1,5 +1,4 @@
 import { createContext, useState } from 'react';
-// import data from './data.json';
 
 export const DataContext = createContext({
   data: [],
