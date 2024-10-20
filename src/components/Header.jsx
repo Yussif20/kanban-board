@@ -1,14 +1,22 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { DropdownPrimitive, DialogPrimitive } from './index.js';
 import iconVerticalEllipsis from '@assets/icon-vertical-ellipsis.svg';
+import { DataContext } from '@/DataContext.jsx';
 
 export const Header = () => {
   const [open, setOpen] = useState(false);
+  const { setData, selectedBoardIndex } = useContext(DataContext);
+
   const onEditBoard = () => setOpen(true);
   const onDeleteBoard = () => {
     if (window.confirm('Are you sure you want to delete')) {
-      console.log('Delete Board');
+      DeleteBoardHandler(selectedBoardIndex);
     }
+  };
+  const DeleteBoardHandler = (boardId) => {
+    setData(
+      (prevData) => prevData.toSpliced(boardId, 1) // new method that does
+    );
   };
   return (
     <header className="flex items-center shrink-0 h-[97px]">
