@@ -1,15 +1,26 @@
 import { SideMenu, Header, WorkSpace } from '@components/index.js';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { DataContext } from './DataContext';
 
 function App() {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState();
   const [selectedBoardIndex, setSelectedBoardIndex] = useState(0);
+
+  useEffect(() => {
+    const savedData = localStorage.getItem('data');
+    if (savedData) {
+      setData(JSON.parse(savedData));
+    }
+  }, []);
+  useEffect(() => {
+    if (!data) return;
+    localStorage.setItem('data', JSON.stringify(data));
+  }, [data]);
 
   return (
     <DataContext.Provider
       value={{
-        data,
+        data: data || [],
         setData,
         selectedBoardIndex,
         setSelectedBoardIndex,
@@ -19,7 +30,7 @@ function App() {
         <Header />
         <div className="flex flex-1">
           <SideMenu />
-          <WorkSpace columns={data[selectedBoardIndex]?.columns} />
+          <WorkSpace />
         </div>
       </div>
     </DataContext.Provider>

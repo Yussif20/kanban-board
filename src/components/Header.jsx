@@ -14,9 +14,7 @@ export const Header = () => {
     }
   };
   const DeleteBoardHandler = (boardId) => {
-    setData(
-      (prevData) => prevData.toSpliced(boardId, 1) // new method that does
-    );
+    setData((prevData) => prevData.toSpliced(boardId, 1));
   };
   return (
     <header className="flex items-center shrink-0 h-[97px]">
