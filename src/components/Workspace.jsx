@@ -13,7 +13,32 @@ import { DataContext } from '@/DataContext.jsx';
  */
 
 export const WorkSpace = () => {
-  const { data, selectedBoardIndex } = useContext(DataContext);
+  const { data, selectedBoardIndex, setData } = useContext(DataContext);
+
+  const createNewColumn = (num) => {
+    return {
+      id: Date.now(),
+      title: `New Column ${num}`,
+      tasks: [],
+    };
+  };
+
+  const addNewColumnHandler = () => {
+    const num = data[selectedBoardIndex].columns.length + 1;
+    const newColumn = createNewColumn(num);
+
+    setData((prevData) => {
+      const newData = [...prevData];
+
+      newData[selectedBoardIndex] = {
+        ...newData[selectedBoardIndex],
+        columns: [...newData[selectedBoardIndex].columns, newColumn],
+      };
+
+      return newData;
+    });
+  };
+
   const columns = data[selectedBoardIndex]?.columns;
   return (
     <div className="flex h-[calc(100vh-97px)] flex-1 gap-6 overflow-auto bg-light-grey p-6">
@@ -26,7 +51,10 @@ export const WorkSpace = () => {
             tasks={column.tasks}
           />
         ))}
-      <button className="w-72 shrink-0 self-start rounded-md bg-lines-light p-3 text-heading-l text-medium-grey">
+      <button
+        className="w-72 shrink-0 self-start rounded-md bg-lines-light p-3 text-heading-l text-medium-grey"
+        onClick={addNewColumnHandler}
+      >
         + New Column
       </button>
     </div>
