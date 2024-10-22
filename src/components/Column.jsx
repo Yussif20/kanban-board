@@ -14,7 +14,10 @@ export const Column = ({ id, title, tasks = [] }) => {
       if (column.id === id) {
         return {
           ...column,
-          tasks: [...column.tasks, newTask],
+          tasks:
+            [...column.tasks].length > 0
+              ? [...column.tasks, newTask]
+              : [newTask],
         };
       }
       return column;
