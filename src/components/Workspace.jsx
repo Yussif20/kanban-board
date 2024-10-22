@@ -1,6 +1,7 @@
 import { useContext } from 'react';
 import { Column } from './index.js';
 import { DataContext } from '@/DataContext.jsx';
+import { produce } from 'immer';
 
 /**
  *
@@ -27,16 +28,11 @@ export const WorkSpace = () => {
     const num = data[selectedBoardIndex].columns.length + 1;
     const newColumn = createNewColumn(num);
 
-    setData((prevData) => {
-      const newData = [...prevData];
-
-      newData[selectedBoardIndex] = {
-        ...newData[selectedBoardIndex],
-        columns: [...newData[selectedBoardIndex].columns, newColumn],
-      };
-
-      return newData;
-    });
+    setData((prevData) =>
+      produce(prevData, (draft) => {
+        draft[selectedBoardIndex].columns.push(newColumn);
+      })
+    );
   };
 
   const columns = data[selectedBoardIndex]?.columns;
