@@ -2,10 +2,11 @@ import { useContext, useState } from 'react';
 import { DropdownPrimitive, DialogPrimitive } from './index.js';
 import iconVerticalEllipsis from '@assets/icon-vertical-ellipsis.svg';
 import { DataContext } from '@/DataContext.jsx';
+import AddNewBoardForm from './AddNewBoardForm.jsx';
 
 export const Header = () => {
   const [open, setOpen] = useState(false);
-  const { setData, selectedBoardIndex } = useContext(DataContext);
+  const { data, setData, selectedBoardIndex } = useContext(DataContext);
 
   const onEditBoard = () => setOpen(true);
   const onDeleteBoard = () => {
@@ -44,12 +45,14 @@ export const Header = () => {
             </button>
           )}
         />
-        <DialogPrimitive
-          isOpen={open}
-          setOpen={setOpen}
-          title="Edit Board"
-          description="open add a new board form"
-        />
+        <DialogPrimitive isOpen={open} setOpen={setOpen} title="Edit Board">
+          <AddNewBoardForm
+            toggleDialog={setOpen}
+            boardId={data[selectedBoardIndex]?.id}
+            columns={data[selectedBoardIndex]?.columns}
+            title={data[selectedBoardIndex]?.title}
+          />
+        </DialogPrimitive>
       </div>
     </header>
   );

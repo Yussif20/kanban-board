@@ -7,7 +7,6 @@ import * as Dialog from '@radix-ui/react-dialog';
  * @param {JSX.Element} props.children
  * @param {Boolean} props.isOpen
  * @param {Function} props.setOpen
- * @param {String} [props.description] - Optional description for the dialog
  * @returns {JSX.Element}
  */
 
@@ -17,11 +16,7 @@ export const DialogPrimitive = ({
   children,
   isOpen,
   setOpen,
-  description,
 }) => {
-  const fallbackDescription =
-    'This dialog provides information that needs attention.';
-
   return (
     <Dialog.Root open={isOpen} onOpenChange={setOpen}>
       <Dialog.Trigger asChild>{triggerComponent}</Dialog.Trigger>
@@ -32,12 +27,6 @@ export const DialogPrimitive = ({
           aria-describedby="dialog-description"
         >
           <Dialog.Title className="text-heading-l">{title}</Dialog.Title>
-          <Dialog.Description
-            id="dialog-description"
-            className="text-sm text-gray-600 mt-2"
-          >
-            {description || fallbackDescription}
-          </Dialog.Description>
           {children}
         </Dialog.Content>
       </Dialog.Portal>

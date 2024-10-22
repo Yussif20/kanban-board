@@ -3,8 +3,13 @@ import { Button, TextField } from './index';
 import iconCross from '@assets/icon-cross.svg';
 import { DataContext } from '@/DataContext';
 
-const AddNewBoardForm = ({ toggleDialog }) => {
-  const [columnsArray, setColumnsArray] = useState([{ id: Date.now() }]);
+const AddNewBoardForm = ({
+  toggleDialog,
+  boardId,
+  columns = [{ id: Date.now() }],
+  title,
+}) => {
+  const [columnsArray, setColumnsArray] = useState(columns);
   const { setData, setSelectedBoardIndex } = useContext(DataContext);
 
   const removeColumnHandler = (id) => {
@@ -14,37 +19,55 @@ const AddNewBoardForm = ({ toggleDialog }) => {
     setColumnsArray((prevArr) => [...prevArr, { id: Date.now() }]);
   };
 
-  const createNewColumnsArray = (formData, columnsArray) => {
+  const createNewColumnsArray = (formData, columnsArray, boardId) => {
     return columnsArray.map((column) => {
+      const tasksArray = boardId ? columnsArray.tasks : [];
       return {
         id: column.id,
         title: formData.get(column.id),
-        tasks: [],
+        tasks: tasksArray,
       };
     });
   };
-  const updateData = (boardName, newColumnsArray, setData) => {
+  const updateData = (boardName, newColumnsArray, setData, boardId) => {
     setData((prevData) => {
-      setSelectedBoardIndex(prevData.length);
-      return [
-        ...prevData,
-        {
-          id: Date.now(),
-          title: boardName,
-          columns: newColumnsArray,
-        },
-      ];
+      let newData;
+      if (boardId) {
+        newData = prevData.map((item) => {
+          if (item.id === boardId) {
+            return {
+              ...item,
+              title: boardName,
+              columns: newColumnsArray,
+            };
+          }
+          return item;
+        });
+      } else {
+        [
+          ...prevData,
+          {
+            id: Date.now(),
+            title: boardName,
+            columns: newColumnsArray,
+          },
+        ];
+        setSelectedBoardIndex(prevData.length);
+      }
+      return newData;
     });
   };
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    // Add board to database or other storage
     const formData = new FormData(e.target);
     const boardName = formData.get('boardName');
-    const newColumnsArray = createNewColumnsArray(formData, columnsArray);
-    // Update the data state with the new board and columns
-    updateData(boardName, newColumnsArray, setData);
+    const newColumnsArray = createNewColumnsArray(
+      formData,
+      columnsArray,
+      boardId
+    );
+    updateData(boardName, newColumnsArray, setData, boardId);
     toggleDialog(false);
   };
 
@@ -52,7 +75,12 @@ const AddNewBoardForm = ({ toggleDialog }) => {
     <form onSubmit={handleFormSubmit}>
       <div>
         <h3 className="pb-2 pt-6 text-body-m text-medium-grey">Name</h3>
-        <TextField placeholder="e.g. Web Design" name="boardName" required />
+        <TextField
+          placeholder="e.g. Web Design"
+          defaultValue={title}
+          name="boardName"
+          required
+        />
       </div>
       <div className="flex flex-col gap-2 mb-4">
         <h3 className="pt-6 text-body-m text-medium-grey">Columns</h3>
@@ -81,7 +109,7 @@ const AddNewBoardForm = ({ toggleDialog }) => {
       </Button>
       <div className="mt-6">
         <Button type="submit" size="sm" variant="primary" isFullWidth>
-          Create New Board
+          {!boardId ? ' Create New' : 'Update'} Board
         </Button>
       </div>
     </form>
