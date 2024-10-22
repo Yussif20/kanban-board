@@ -3,7 +3,7 @@ import { Card } from './index';
 import { useContext } from 'react';
 import { produce } from 'immer';
 
-export const Column = ({ id, title, tasks = [] }) => {
+export const Column = ({ id, title, tasks = [], columnIndex }) => {
   const { data, setData, selectedBoardIndex } = useContext(DataContext);
 
   const createNewTask = () => ({
@@ -58,12 +58,14 @@ export const Column = ({ id, title, tasks = [] }) => {
         </button>
       </h2>
       <div className="flex flex-col gap-5 mb-5">
-        {tasks.map((task) => (
+        {tasks.map((task, index) => (
           <Card
             key={task.id}
             title={task.title}
             cardId={task.id}
             columnId={id}
+            cardIndex={index}
+            columnIndex={columnIndex}
           />
         ))}
       </div>
