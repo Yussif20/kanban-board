@@ -9,19 +9,21 @@ const AddNewBoardForm = ({
   columns = [{ id: Date.now() }],
   title,
 }) => {
-  const [columnsArray, setColumnsArray] = useState(columns);
   const { setData, setSelectedBoardIndex } = useContext(DataContext);
+  const [columnsArray, setColumnsArray] = useState(columns);
 
   const removeColumnHandler = (id) => {
-    setColumnsArray((prevArr) => prevArr.filter((column) => column.id !== id));
+    setColumnsArray((prev) => prev.filter((column) => column.id !== id));
   };
+
   const addNewColumnHandler = () => {
-    setColumnsArray((prevArr) => [...prevArr, { id: Date.now() }]);
+    setColumnsArray((prev) => [...prev, { id: Date.now() }]);
   };
 
   const createNewColumnsArray = (formData, columnsArray, boardId) => {
     return columnsArray.map((column) => {
       const tasksArray = boardId ? columnsArray.tasks : [];
+
       return {
         id: column.id,
         title: formData.get(column.id),
@@ -29,11 +31,13 @@ const AddNewBoardForm = ({
       };
     });
   };
+
   const updateData = (boardName, newColumnsArray, setData, boardId) => {
-    setData((prevData) => {
+    setData((prev) => {
       let newData;
+
       if (boardId) {
-        newData = prevData.map((item) => {
+        newData = prev.map((item) => {
           if (item.id === boardId) {
             return {
               ...item,
@@ -44,15 +48,15 @@ const AddNewBoardForm = ({
           return item;
         });
       } else {
-        [
-          ...prevData,
+        newData = [
+          ...prev,
           {
             id: Date.now(),
             title: boardName,
             columns: newColumnsArray,
           },
         ];
-        setSelectedBoardIndex(prevData.length);
+        setSelectedBoardIndex(prev.length);
       }
       return newData;
     });
@@ -67,10 +71,10 @@ const AddNewBoardForm = ({
       columnsArray,
       boardId
     );
+
     updateData(boardName, newColumnsArray, setData, boardId);
     toggleDialog(false);
   };
-
   return (
     <form onSubmit={handleFormSubmit}>
       <div>
