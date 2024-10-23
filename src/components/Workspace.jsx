@@ -74,13 +74,32 @@ export const WorkSpace = () => {
   const onDragEndHandler = (event) => {
     const { active, over } = event;
 
-    if (active.id !== over.id) {
-      setItems((items) => {
-        const oldIndex = items.indexOf(active.id);
-        const newIndex = items.indexOf(over.id);
+    const activeId = active.id;
+    const activeColumnId = active.data.current.columnId;
+    const overId = over.id;
+    const overColumnId = over.data.current.columnId;
 
-        return arrayMove(items, oldIndex, newIndex);
+    if (activeId === overId) return;
+
+    if (activeColumnId === overColumnId) {
+      const newColumns = columns.map((column) => {
+        if (column.id === activeColumnId) {
+          const activeIdIndex = column.tasks.findIndex(
+            (task) => task.id === activeId
+          );
+          const overIdIndex = column.tasks.findIndex(
+            (task) => task.id === overId
+          );
+          const tasks = arrayMove(column.tasks, activeIdIndex, overIdIndex);
+          return { ...column, tasks };
+        }
+        return column;
       });
+      setData((prevData) =>
+        produce(prevData, (draft) => {
+          draft[selectedBoardIndex].columns = newColumns;
+        })
+      );
     }
   };
 
