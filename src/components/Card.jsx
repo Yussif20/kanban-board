@@ -1,31 +1,31 @@
 import { DataContext } from '@/DataContext';
 import { useContext, useState } from 'react';
 import { produce } from 'immer';
+import { useSortable } from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 
 export const Card = ({ cardId, columnId, title, columnIndex, cardIndex }) => {
   const [isEditMode, setIsEditMode] = useState(false);
   const { setData, selectedBoardIndex } = useContext(DataContext);
 
+  const { attributes, listeners, setNodeRef, transform, transition } =
+    useSortable({ id: cardId, data: { columnId } });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+  };
+
   const onDeleteHandler = () => {
     if (window.confirm('Are you sure you want to delete this card?')) {
-      setData((prevData) => {
-        const newData = [...prevData];
-        const newColumns = newData[selectedBoardIndex].columns.map((column) => {
-          if (column.id === columnId) {
-            return {
-              ...column,
-              tasks: column.tasks.filter((task) => task.id !== cardId),
-            };
-          }
-          return column;
-        });
-        newData[selectedBoardIndex] = {
-          ...newData[selectedBoardIndex],
-          columns: newColumns,
-        };
-
-        return newData;
-      });
+      setData((prev) =>
+        produce(prev, (draft) => {
+          draft[selectedBoardIndex].columns[columnIndex].tasks.splice(
+            cardIndex,
+            1
+          );
+        })
+      );
     }
   };
 
@@ -50,7 +50,13 @@ export const Card = ({ cardId, columnId, title, columnIndex, cardIndex }) => {
     e.key === 'Enter' && e.target.blur();
   };
   return (
-    <div className="group/card relative min-h-16 overflow-hidden rounded-lg bg-white px-4 py-3 shadow-sm">
+    <div
+      ref={setNodeRef}
+      style={style}
+      {...attributes}
+      {...listeners}
+      className="group/card relative min-h-16 overflow-hidden rounded-lg bg-white px-4 py-3 shadow-sm"
+    >
       {isEditMode ? (
         <textarea
           defaultValue={title}

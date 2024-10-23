@@ -75,18 +75,19 @@ const AddNewBoardForm = ({
     updateData(boardName, newColumnsArray, setData, boardId);
     toggleDialog(false);
   };
+
   return (
     <form onSubmit={handleFormSubmit}>
       <div>
         <h3 className="pb-2 pt-6 text-body-m text-medium-grey">Name</h3>
         <TextField
           placeholder="e.g. Web Design"
-          defaultValue={title}
           name="boardName"
+          defaultValue={title}
           required
         />
       </div>
-      <div className="flex flex-col gap-2 mb-4">
+      <div className="flex flex-col gap-2">
         <h3 className="pt-6 text-body-m text-medium-grey">Columns</h3>
         {columnsArray.map((obj) => (
           <div key={obj.id} className="flex items-center gap-4">
@@ -101,19 +102,18 @@ const AddNewBoardForm = ({
             </button>
           </div>
         ))}
+        <Button
+          type="button"
+          variant="secondary"
+          size="sm"
+          onClick={addNewColumnHandler}
+        >
+          + Add New Column
+        </Button>
       </div>
-      <Button
-        type="button"
-        size="sm"
-        variant="secondary"
-        isFullWidth
-        onClick={addNewColumnHandler}
-      >
-        + Add New Column
-      </Button>
       <div className="mt-6">
-        <Button type="submit" size="sm" variant="primary" isFullWidth>
-          {!boardId ? ' Create New' : 'Update'} Board
+        <Button type="submit" variant="primary" size="sm" isFullWidth>
+          {boardId ? 'Update' : 'Create New'} Board
         </Button>
       </div>
     </form>

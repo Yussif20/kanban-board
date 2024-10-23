@@ -1,7 +1,22 @@
-import { useContext } from 'react';
+import { useContext, useMemo } from 'react';
 import { Column } from './index.js';
 import { DataContext } from '@/DataContext.jsx';
 import { produce } from 'immer';
+
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+} from '@dnd-kit/core';
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  verticalListSortingStrategy,
+} from '@dnd-kit/sortable';
 
 /**
  *
@@ -15,6 +30,8 @@ import { produce } from 'immer';
 
 export const WorkSpace = () => {
   const { data, selectedBoardIndex, setData } = useContext(DataContext);
+
+  const columns = data[selectedBoardIndex]?.columns;
 
   const createNewColumn = (num) => {
     return {
@@ -35,25 +52,67 @@ export const WorkSpace = () => {
     );
   };
 
-  const columns = data[selectedBoardIndex]?.columns;
+  const tasksIds = useMemo(() => {
+    let tasksIds = [];
+
+    if (!columns || columns.length === 0) return tasksIds;
+
+    for (let column of columns) {
+      tasksIds = [...tasksIds, ...column.tasks.map((task) => task.id)];
+    }
+    return tasksIds;
+  }, [columns]);
+
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      activationConstraint: {
+        distance: 10,
+      },
+    })
+  );
+  const onDragEndHandler = (event) => {
+    const { active, over } = event;
+
+    if (active.id !== over.id) {
+      setItems((items) => {
+        const oldIndex = items.indexOf(active.id);
+        const newIndex = items.indexOf(over.id);
+
+        return arrayMove(items, oldIndex, newIndex);
+      });
+    }
+  };
+
   return (
-    <div className="flex h-[calc(100vh-97px)] flex-1 gap-6 overflow-auto bg-light-grey p-6">
-      {columns?.length &&
-        columns.map((column, index) => (
-          <Column
-            id={column.id}
-            key={column.id}
-            title={column.title}
-            tasks={column.tasks}
-            columnIndex={index}
-          />
-        ))}
-      <button
-        className="w-72 shrink-0 self-start rounded-md bg-lines-light p-3 text-heading-l text-medium-grey"
-        onClick={addNewColumnHandler}
-      >
-        + New Column
-      </button>
-    </div>
+    <DndContext
+      sensors={sensors}
+      collisionDetection={closestCenter}
+      onDragEnd={onDragEndHandler}
+    >
+      <div className="flex h-[calc(100vh-97px)] flex-1 gap-6 overflow-auto bg-light-grey p-6">
+        <SortableContext
+          items={tasksIds}
+          strategy={verticalListSortingStrategy}
+        >
+          {columns?.length &&
+            columns.map((column, index) => (
+              <Column
+                id={column.id}
+                key={column.id}
+                title={column.title}
+                tasks={column.tasks}
+                columnIndex={index}
+              />
+            ))}
+        </SortableContext>
+        <button
+          className="w-72 shrink-0 self-start rounded-md bg-lines-light p-3 text-heading-l text-medium-grey"
+          onClick={addNewColumnHandler}
+        >
+          + New Column
+        </button>
+      </div>
+    </DndContext>
   );
 };
