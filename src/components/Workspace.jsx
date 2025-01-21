@@ -6,7 +6,6 @@ import { produce } from 'immer';
 import {
   DndContext,
   closestCenter,
-  KeyboardSensor,
   PointerSensor,
   useSensor,
   useSensors,
@@ -14,7 +13,6 @@ import {
 import {
   arrayMove,
   SortableContext,
-  sortableKeyboardCoordinates,
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
 
@@ -52,7 +50,7 @@ export const WorkSpace = () => {
 
     setData((prev) =>
       produce(prev, (draft) => {
-        draft[selectedBoardIndex].columns.push(newColumn);
+        draft[selectedBoardIndex].columns.push(newColumn); // Only push the new column
       })
     );
   };
@@ -61,9 +59,13 @@ export const WorkSpace = () => {
     let tasksIds = [];
 
     if (!columns || columns.length === 0) return tasksIds;
-    for (let column of columns) {
-      tasksIds = [...tasksIds, ...column.tasks.map((task) => task.id)];
-    }
+
+    columns.forEach((column) => {
+      if (Array.isArray(column.tasks) && column.tasks.length > 0) {
+        tasksIds = [...tasksIds, ...column.tasks.map((task) => task.id)];
+      }
+    });
+
     return tasksIds;
   }, [columns]);
 
